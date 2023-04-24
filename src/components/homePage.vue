@@ -222,18 +222,23 @@ export default {
     this.socket.on("receive-message", (code,msg,driver_id)=>{
       this.receieveMessage(msg)
       if(code==1){
-        this.sendMessage("Yes I have slowed down my speed from " + this.Speed+" Km/h" + " to " + 3*(this.Speed/4)+" Km/h")
-        this.sendMessage("You can overtake now") 
-        let sendMsg = this.driverName + " has slowed down speed from " + this.Speed+" Km/h"+ " to " +3*(this.Speed/4)+" Km/h"
-        this.Speed = 3*(this.Speed/4)
-        this.socket.emit("send-message",4,driver_id,sendMsg)
-        sendMsg = "You can overtake now"
-        this.socket.emit("send-message",4,driver_id,sendMsg)
-
+        setTimeout(() => {
+          this.sendMessage("Yes I have slowed down my speed from " + this.Speed+" Km/h" + " to " + 3*(this.Speed/4)+" Km/h")
+          this.sendMessage("You can overtake now") 
+          let sendMsg = this.driverName + " has slowed down speed from " + this.Speed+" Km/h"+ " to " +3*(this.Speed/4)+" Km/h"
+          this.Speed = 3*(this.Speed/4)
+          setTimeout(() => {
+            this.socket.emit("send-message",4,driver_id,sendMsg)
+            sendMsg = "You can overtake now"
+            this.socket.emit("send-message",4,driver_id,sendMsg)
+          }, 300);
+        }, 1000);
       }
       if(code==3){
-        this.Speed = 4*(this.Speed/3)
-        this.sendMessage("I'm again driving at my normal speed of " + this.Speed+" Km/h")
+        setTimeout(() => {
+          this.Speed = 4*(this.Speed/3)
+          this.sendMessage("I'm again driving at my normal speed of " + this.Speed+" Km/h")
+        }, 1000);
       }
     })
     
