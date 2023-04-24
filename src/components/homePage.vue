@@ -26,8 +26,8 @@
     <h2>My Car</h2>
     <div  class="d-flex flex-row justify-content-around align-items-center flex-wrap" style="width: 100%;">
       <h5 class="m-2">{{ driverName }}</h5>
-      <h5 class="m-2">X: {{ X.toFixed(2) }}</h5>
-      <h5 class="m-2">Y: {{ Y.toFixed(2) }}</h5>
+      <h5 v-if="tableShow" class="m-2">X: {{ X.toFixed(2) }}</h5>
+      <h5 v-if="tableShow" class="m-2">Y: {{ Y.toFixed(2) }}</h5>
       <div class="d-flex flex-row justify-content-center align-items-center m-2">
         <label for="Angle-input">Angle</label>
         <input  class="form-control input-box" type="text" id="Angle-input" name="Angle-input" v-model="Angle" placeholder="degree" required>
@@ -139,14 +139,17 @@ export default {
                 let sendMsg =this.driverName + " is overtaking you. Please slow down";
                 this.socket.emit("send-message",1,this.driverList[i].id,sendMsg)
                 this.overtake = true
-                this.Angle+=5
+                this.Angle-=5
+                let originalSpeed = this.Speed
+                this.Speed = Math.min(this.driverList[i].speed * 1.3,this.Speed)
                 setTimeout(() => {
-                  this.Angle-=5
+                  this.Angle+=5
                 }, 2000);
                 var intrval = setInterval(() => {
                   distance = Math.sqrt(Math.pow(this.X - this.driverList[i].x, 2) + Math.pow(this.Y - this.driverList[i].y, 2))
                   if(distance>2*speedInMeter){
                     this.overtake = false
+                    this.Speed = originalSpeed
                     // send signal overtaking done
                     console.log("overtaking done")
                     this.sendMessage("I have overtaken "+this.driverList[i].name + ". Thank you for your cooperation")
@@ -183,8 +186,8 @@ export default {
     }
   },
   mounted(){
-    this.socket = io("http://localhost:3000")
-    // this.socket = io("https://rfproject.onrender.com")
+    // this.socket = io("http://localhost:3000")
+    this.socket = io("https://rfproject.onrender.com")
     this.socket.on("connect", () => {
       console.log("Connected to server ", this.socket.id)
     })
