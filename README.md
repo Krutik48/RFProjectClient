@@ -19,5 +19,5 @@ https://krutik48.github.io/RFProjectClient/
 
 ## Contributor
 
-![Rahil Shah](https://github.com/rahilshah17)
+![Rahil Shah](https://avatars.githubusercontent.com/u/87075100?v=4)
 
