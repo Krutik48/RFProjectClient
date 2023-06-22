@@ -17,3 +17,7 @@ Overall, our website built with Socket.io creates a simulated environment for se
 
 https://krutik48.github.io/RFProjectClient/
 
+## Contributor
+
+![Rahil Shah](https://github.com/rahilshah17)
+
